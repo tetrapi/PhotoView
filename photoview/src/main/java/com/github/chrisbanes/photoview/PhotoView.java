@@ -35,7 +35,7 @@ public class PhotoView extends AppCompatImageView {
 
     private PhotoViewAttacher attacher;
     private ScaleType pendingScaleType;
-    private Boolean firstTime = true;
+    private int count = 0;
 
     public PhotoView(Context context) {
         this(context, null);
@@ -105,37 +105,37 @@ public class PhotoView extends AppCompatImageView {
     @Override
     public void setImageDrawable(Drawable drawable) {
         super.setImageDrawable(drawable);
-        // setImageBitmap calls through to this method
-        if (attacher != null && firstTime) {
+        if (attacher != null && count <= 4) {
             attacher.update();
-            firstTime = false;
-        }
-    }
-
-    @Override
-    public void setImageResource(int resId) {
-        super.setImageResource(resId);
-        if (attacher != null  && firstTime) {
-            attacher.update();
-            firstTime = false;
-        }
-    }
-
-    @Override
-    public void setImageURI(Uri uri) {
-        super.setImageURI(uri);
-        if (attacher != null   && firstTime) {
-            attacher.update();
-            firstTime = false;
+            count++;
         }
     }
 
     @Override
     public void setImageBitmap(Bitmap bm) {
         super.setImageBitmap(bm);
-        if (attacher != null   && firstTime) {
+        if (attacher != null && count <= 4) {
             attacher.update();
-            firstTime = false;
+            count++;
+        }
+
+    }
+
+    @Override
+    public void setImageResource(int resId) {
+        super.setImageResource(resId);
+        if (attacher != null && count <= 4) {
+            attacher.update();
+            count++;
+        }
+    }
+
+    @Override
+    public void setImageURI(Uri uri) {
+        super.setImageURI(uri);
+        if (attacher != null && count <= 4) {
+            attacher.update();
+            count++;
         }
     }
 
